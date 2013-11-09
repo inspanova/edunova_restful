@@ -6,7 +6,9 @@ package com.inspanova.edunova_restful;
 
 import com.inspanova.edunova.db.Db_Interactor;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.naming.AuthenticationException;
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +21,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import com.inspanova.edunova.utility.Mail;
 
 /**
  * REST Web Service
@@ -53,14 +56,22 @@ public class loginResource {
     @Path("/saveschool")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Map<String, Serializable> addSchool(
+    public Map<String, String> addSchool(
             @Context HttpServletRequest request,
             Map<String, String> schoolInfo) throws Exception {
         HttpSession session = request.getSession(true);
-        Map <String,Serializable> userData=new HashMap<String, Serializable>(2);
-        int accountId=1;
+        Map<String, String> userData = new HashMap<String, String>(3);
+        int accountId = 1;
 //        int accountId = (Integer) session.getAttribute("accountId");
-        userData.put("key", ""+Db_Interactor.addSchoolInfo(accountId, schoolInfo));
+        userData = Db_Interactor.addSchoolInfo(accountId, schoolInfo);
+        int createdUserId = Integer.valueOf(userData.get("userId"));
+        if (createdUserId > 0) {
+            List<String> recipients = new ArrayList<String>();
+            String subject = "Login created";
+            String messageBody = "User Id: Password";
+            recipients.add(userData.get("email"));
+            Mail.sendMail(recipients, subject, messageBody);
+        }
         return userData;
     }
 }
