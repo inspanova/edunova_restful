@@ -5,8 +5,6 @@
 package com.inspanova.edunova.utility;
 
 import java.util.List;
-
-
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailException;
@@ -17,13 +15,12 @@ import org.apache.commons.mail.SimpleEmail;
  * @author krishna
  */
 public class Mail {
-    
     private static final String HOSTNAME = "smtp.googlemail.com";
 	private static final int SMTP_PORT = 465;
-	private static final String USERNAME = "inspanova@gmail.com.com";
+	private static final String USERNAME = "";
 	private static final String PASSWORD = "";
 
-	private static final String FROM_ADDRESS = "inspanova@gmail.com";
+	private static final String FROM_ADDRESS = "";
 
 	public static void sendMail(List<String> mailRecipientList, String subject,
 			String messageBody) throws EmailException {
@@ -39,5 +36,6 @@ public class Mail {
 			email.addBcc(recipient);
 		}
 		email.send();
-        }
+	}
+
 }
