@@ -20,10 +20,10 @@ public class Mail {
     
     private static final String HOSTNAME = "smtp.googlemail.com";
 	private static final int SMTP_PORT = 465;
-	private static final String USERNAME = "kkumar.nml@gmail.com";
-	private static final String PASSWORD = "10bfb632";
+	private static final String USERNAME = "inspanova@gmail.com.com";
+	private static final String PASSWORD = "";
 
-	private static final String FROM_ADDRESS = "kkumar.nml@gmail.com";
+	private static final String FROM_ADDRESS = "inspanova@gmail.com";
 
 	public static void sendMail(List<String> mailRecipientList, String subject,
 			String messageBody) throws EmailException {
