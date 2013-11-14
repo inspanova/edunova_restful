@@ -74,4 +74,29 @@ public class loginResource {
         }
         return userData;
     }
+
+    @GET
+    @Path("/getschool")
+    @Produces(MediaType.APPLICATION_JSON)
+    public static List<Map<String, Serializable>> getSchools(
+            @Context HttpServletRequest request) throws Exception {
+        HttpSession session = request.getSession(true);
+        return Db_Interactor.getSchoolDetails();
+    }
+
+    @POST
+    @Path("/editschool")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Map<String, String> editSchool(
+            @Context HttpServletRequest request,
+            Map<String, String> schoolInfo) throws Exception {
+        HttpSession session = request.getSession(true);
+        Map<String, String> userData = new HashMap<String, String>(3);
+        int accountId = 1;
+//        int accountId = (Integer) session.getAttributae("accountId");
+        userData = Db_Interactor.editSchoolInfo(schoolInfo);
+       
+        return userData;
+    }
 }
