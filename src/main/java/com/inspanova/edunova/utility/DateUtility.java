@@ -13,10 +13,18 @@ import java.util.Date;
  * @author krishna
  */
 public class DateUtility {
+
     public static String convertMMDDYYYYToMySQLDate(String dateString)
-			throws ParseException {
-		Date date = new SimpleDateFormat("MM/dd/yyyy").parse(dateString);
-		return new SimpleDateFormat("yyyy-MM-dd").format(date);
-	}
-    
+            throws ParseException {
+        Date date = new SimpleDateFormat("MM/dd/yyyy").parse(dateString);
+        return new SimpleDateFormat("yyyy-MM-dd").format(date);
+    }
+
+    public static String convertMYSQLDateTimeToMMDDYYYY(String dateString) throws ParseException {
+        if (dateString == null) {
+            return "";
+        }
+        Date date = new SimpleDateFormat("yyyy-MM-dd").parse(dateString);
+        return new SimpleDateFormat("MM/dd/yyyy").format(date);
+    }
 }

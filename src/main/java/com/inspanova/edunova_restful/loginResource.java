@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.naming.AuthenticationException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
@@ -22,6 +21,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import com.inspanova.edunova.utility.Mail;
+import javax.ws.rs.PUT;
 
 /**
  * REST Web Service
@@ -34,16 +34,17 @@ public class loginResource {
     @POST
     @Path("/login")
     @Produces(MediaType.APPLICATION_JSON)
-    public Map<String, String> authenticate(
+    public Map<String, Serializable> authenticate(
             @Context HttpServletRequest request,
             @FormParam("username") String username,
             @FormParam("password") String password) throws Exception {
-        Map<String, String> userMap = Db_Interactor.authenticate(username, password);
+        Map<String, Serializable> userMap = Db_Interactor.authenticate(username, password);
 
 
-        if (userMap.get("role") != "0") {
+        if (userMap.get("roleId") != "0") {
             HttpSession session = request.getSession(true);
             session.setAttribute("username", username);
+            System.out.println(userMap.get("roleId"));
 
 
         } else {
@@ -98,5 +99,15 @@ public class loginResource {
         userData = Db_Interactor.editSchoolInfo(schoolInfo);
        
         return userData;
+    }
+    @PUT
+	@Path("/activate")
+	@Produces(MediaType.APPLICATION_JSON)
+	public void enableOrDisable(
+			@Context HttpServletRequest request,
+			@FormParam("value") String value,
+                        @FormParam("schoolId") String schoolId) throws Exception {
+        System.out.println(schoolId);
+        Db_Interactor.activateOrDeactivateSchool(Integer.valueOf(value),Integer.valueOf(schoolId));
     }
 }
